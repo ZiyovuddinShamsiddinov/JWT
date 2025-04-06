@@ -1,25 +1,23 @@
+from os.path import basename
 from django.contrib import admin
 from django.urls import path, include
-from tutorial.urls import router
-
+from configapp.routers import router
 from configapp.models import CommitMovie
 from configapp.views import *
 from rest_framework.routers import DefaultRouter
 
-# router = DefaultRouter()
-# router.register(r"", MovieApi)
+router = DefaultRouter()
+router.register(r"", MovieApi , basename="movie_api")
+router.register(r"", ActorApi , basename="actor_api")
 
 urlpatterns = [
     path("movie/", MovieApi.as_view(), name="movie-create"),  # Регистрируем вручную
-    path("commit/",CommentAPI.as_view()),
+    path("commit/",CommentApiI.as_view()),
+    path('commit_details/<slug:slug>/', ),
+    path("actor/",ActorApi.as_view()),
+    path('actor_detail/<slug:slug>/', ),
+    path('movie_detail/<slug:slug>/', ),
 
-    # # path('malumot_api/', malumot_api),
-    # path("movie/",MovieApi.as_view()),
-    # # get,post
-    # path('movie_api/', movie_api),
-    # # put,patch,delete
-    # path('movie_detail/<slug:slug>/', movie_details),
 
-    # path("movie_details/<int:pk>",MovieDetailApi.as_view()),
 ]
 

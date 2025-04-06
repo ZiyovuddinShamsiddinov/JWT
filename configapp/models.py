@@ -1,52 +1,32 @@
+from django.contrib.auth import get_user_model
 from django.db import models
-from django.utils.termcolors import RESET
-from django.utils.text import slugify
-from rest_framework.response import Response
-from rest_framework import serializers
-from django.contrib.auth.models import User
 
-
-
-class BaseModel(models.Model):
-    created_ed=models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        abstract=True
-#
-class Actor(BaseModel):
-    name = models.CharField(max_length=150)
-    birth_date = models.DateField()
-
-    def __str__(self):
-        return self.name
+User = get_user_model()
 
 
 class Movie(models.Model):
-    title = models.CharField(max_length=150)
+    name = models.CharField(max_length=150)
     year = models.IntegerField()
-    slug = models.SlugField(unique=True,null=True)
+    photo = models.ImageField(upload_to='photos/%Y/%m/%d/', null=True, blank=True)
     genre = models.CharField(max_length=50)
     actor = models.ManyToManyField('Actor')
 
     def __str__(self):
         return self.name
 
-    def save(self,**kwargs):
-        if not self.slug:
-            origin_slug=slugify(self.title)
-            slug=origin_slug
-            count=0
-            while Movie.objects.filter(slug=slug).exists():
-                slug=f"{slug}-{count}"
-                count+=1
-            self.slug=slug
-        super().save(**kwargs)
+
+class Actor(models.Model):
+    name = models.CharField(max_length=150)
+    birthdate = models.DateField()
+
+    def __str__(self):
+        return self.name
+
 
 class CommitMovie(models.Model):
-    title=models.TextField()
-    movie=models.ForeignKey(Movie,on_delete=models.CASCADE)
-    author=models.ForeignKey(User,on_delete=models.CASCADE)
-    created_ed=models.DateField(auto_now_add=True)
-    update_ed=models.DateField(auto_now=True)
-
+    title = models.TextField()
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    create_ed = models.DateField(auto_now_add=True)
+    update_ed = models.DateTimeField(auto_now=True)
 
