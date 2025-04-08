@@ -1,23 +1,33 @@
 from os.path import basename
 from django.contrib import admin
 from django.urls import path, include
-from configapp.routers import router
+# from configapp.routers import router
 from configapp.models import CommitMovie
-from configapp.views import *
-from rest_framework.routers import DefaultRouter
+from .views import *
 
-router = DefaultRouter()
-router.register(r"", MovieApi , basename="movie_api")
-router.register(r"", ActorApi , basename="actor_api")
+# from rest_framework.routers import DefaultRouter
+
+# router = DefaultRouter()
+# router.register(r"", MovieCreateView , basename="movie_api")
+# router.register(r"", MovieCreateView , basename="actor_api")
 
 urlpatterns = [
-    path("movie/", MovieApi.as_view(), name="movie-create"),  # Регистрируем вручную
-    path("commit/",CommentApiI.as_view()),
-    path('commit_details/<slug:slug>/', ),
-    path("actor/",ActorApi.as_view()),
-    path('actor_detail/<slug:slug>/', ),
-    path('movie_detail/<slug:slug>/', ),
+    path('movie/', MovieListView.as_view(), name='movie-list'),
+    path('movie/create/', MovieCreateView.as_view(), name='movie-create'),
+    path('movie/<int:pk>/', MovieDetailView.as_view(), name='movie-detail'),
+    path('movie/update/<int:pk>/', MovieUpdateView.as_view(), name='movie-update'),
+    path('movie/delete/<int:pk>/', MovieDeleteView.as_view(), name='movie-delete'),
 
+    path('actor/', MovieListView.as_view(), name='movie-list'),
+    path('actor/create/', MovieCreateView.as_view(), name='movie-create'),
+    path('actor/<int:pk>/', MovieDetailView.as_view(), name='movie-detail'),
+    path('actor/update/<int:pk>/', MovieUpdateView.as_view(), name='movie-update'),
+    path('actor/delete/<int:pk>/', MovieDeleteView.as_view(), name='movie-delete'),
+
+    path('commit/', MovieListView.as_view(), name='movie-list'),
+    path('commit/create/', MovieCreateView.as_view(), name='movie-create'),
+    path('commit/<int:pk>/', MovieDetailView.as_view(), name='movie-detail'),
+    path('commit/update/<int:pk>/', MovieUpdateView.as_view(), name='movie-update'),
+    path('commit/delete/<int:pk>/', MovieDeleteView.as_view(), name='movie-delete'),
 
 ]
-

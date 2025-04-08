@@ -5,14 +5,15 @@ User = get_user_model()
 
 
 class Movie(models.Model):
-    name = models.CharField(max_length=150)
+    title = models.CharField(max_length=150)
     year = models.IntegerField()
     photo = models.ImageField(upload_to='photos/%Y/%m/%d/', null=True, blank=True)
     genre = models.CharField(max_length=50)
     actor = models.ManyToManyField('Actor')
 
+
     def __str__(self):
-        return self.name
+        return self.title
 
 
 class Actor(models.Model):

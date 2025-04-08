@@ -9,12 +9,11 @@ from .models import *
 
 class ActorSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=150)
-    birth_date = serializers.DateField()
+    birthdate = serializers.DateField()  # ✅ правильное имя
 
     class Meta:
         model = Actor
         fields = "__all__"
-
 
 class MovieSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
@@ -24,12 +23,17 @@ class MovieSerializer(serializers.ModelSerializer):
     actor = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     genre = serializers.CharField()
 
-    def create(self, validated_data):
-        return Movie.objects.create(**validated_data)
-
     class Meta:
         model = Movie
         fields = "__all__"
+
+    def create(self, validated_data):
+        actors = validated_data.pop('actor', [])
+        movie = Movie.objects.create(**validated_data)
+        movie.actor.set(actors)
+        return movie
+
+
 
 
 class CommitSerializer(serializers.ModelSerializer):
