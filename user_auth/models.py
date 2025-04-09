@@ -52,7 +52,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def has_module_perms(self, app_label):
         return self.is_admin
-
+###
 class OTP(models.Model):
     phone = models.CharField(max_length=17)
     code = models.CharField(max_length=6)
