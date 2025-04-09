@@ -29,3 +29,14 @@ class LoginSerializer(serializers.Serializer):
             )
         attrs["user"]=auth_user
         return attrs
+
+###
+from rest_framework import serializers
+from .models import User, OTP
+
+class SendOTPSerializer(serializers.Serializer):
+    phone = serializers.CharField()
+
+class VerifyOTPSerializer(serializers.Serializer):
+    phone = serializers.CharField()
+    code = serializers.CharField()
