@@ -1,5 +1,5 @@
 from django.db import models
-
+import random
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.core.validators import RegexValidator
@@ -52,3 +52,15 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def has_module_perms(self, app_label):
         return self.is_admin
+
+class OTP(models.Model):
+    phone = models.CharField(max_length=17)
+    code = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        self.code = str(random.randint(100000, 999999))
+        super().save(*args, **kwargs)
+
+    def is_expired(self):
+        return (timezone.now() - self.created_at).seconds > 300  # 5 daqiqa
