@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'configapp',
     'rest_framework',
     'rest_framework_simplejwt',
+    'user_auth',
+    'drf_yasg',
 ]
 
 # settings.py
@@ -50,8 +52,8 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-  # It will work instead of the default serializer(TokenObtainPairSerializer).
-  "TOKEN_OBTAIN_SERIALIZER": "my_app.serializers.MyTokenObtainPairSerializer",
+    # It will work instead of the default serializer(TokenObtainPairSerializer).
+    "TOKEN_OBTAIN_SERIALIZER": "my_app.serializers.MyTokenObtainPairSerializer",
 }
 
 MIDDLEWARE = [
@@ -93,8 +95,6 @@ DATABASES = {
     }
 }
 
-
-
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
@@ -126,6 +126,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
+AUTH_USER_MODEL = 'user_auth.User'
 
 STATIC_URL = 'static/'
 
