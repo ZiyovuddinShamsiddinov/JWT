@@ -1,14 +1,25 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-from ..models.auth_user import *
+from ..models import *
 
 
-# class UserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = "__all__"
-#
-#
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id','phone_number','password','email','is_active','is_teacher','is_staff','is_admin','is_student')
+
+
+class TeacherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Teacher
+        fields = ('id','user','full_name','course','department')
+
+class DepartmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Departments
+        fields=('id','title')
+
+
 # class ChangePasswordSerializer(serializers.ModelSerializer):
 #     old_password = serializers.CharField(required=True, write_only=True)
 #     new_password = serializers.CharField(required=True, write_only=True)
